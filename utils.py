@@ -1,26 +1,52 @@
 import json
 from datetime import datetime
-def get_data():
-    with open('operations.json') as json_file:
+
+
+def get_data(file='operations.json'):
+    with open(file, encoding="UTF-8") as json_file:
         return json.load(json_file)
+
 
 def get_filtered_data(data):
     new_data = []
     for transaction in data:
-        if transaction['state'] == 'EXECUTED':
+        if transaction.get('state') == 'EXECUTED':
             new_data.append(transaction)
     return new_data
+
 
 def get_sorted_data(data):
     data = sorted(data, key=lambda x: x['date'], reverse=True)
     return data[:5]
 
-def get_formatted(data):
-    date_transaction = datetime.strptime(data[0]['date'], "%Y-%m-%dT%H:%M:%S.%f")
+#Формат даты
+def get_formatted(date):
+    date_transaction = datetime.strptime(date, "%Y-%m-%dT%H:%M:%S.%f")
     date_transaction = date_transaction.strftime("%d.%m.%Y")
-    print(date_transaction)
+    return (date_transaction)
+
+
+def masking_card(card_info: str):
     """
-14.10.2018 Перевод организации
-Visa Platinum 7000 79** **** 6361 -> Счет **9638
-82771.72 руб.
+    :param card_info: строка с именем и номером карты/счета
+    :return: имя карты/счета и ее замаскированный номер
     """
+    if len(card_info) != 0:
+        card_number = card_info.split()[-1]
+        card_name = ' '.join(card_info.split()[:-1])
+
+    if len(card_number) == 16 and card_number.isdigit():
+        card_number = card_number[:4] + ' ' + card_number[4:6] + '** **** ' + card_number[-4:]
+
+    elif len(card_number) == 20 and card_number.isdigit():
+        card_number = '**' + card_number[-4:]
+
+    else:
+        return 'Uncorrected card_info'
+
+    return f'{card_name} {card_number}'
+
+
+def masking_card2(card_info: str):
+    if card_info.startswith('Счет'):
+        return 'Счет ****' + card_info[-4:0]

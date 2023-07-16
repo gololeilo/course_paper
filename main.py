@@ -1,4 +1,4 @@
-from utils import get_data, get_sorted_data, get_filtered_data, get_formatted
+from utils import get_data, get_sorted_data, get_filtered_data, get_formatted, masking_card, masking_card2
 
 
 def main():
@@ -6,9 +6,17 @@ def main():
     data = get_data()
     data = get_filtered_data(data)
     data = get_sorted_data(data)
-    data = get_formatted(data)
 
-    print(data)
+
+    for row  in data:
+        print(get_formatted(row['date']),end=' ')
+        print(row['description'])
+        print(masking_card(row['to']))
+        print(row['operationAmount'])
+
+
+
+
 
 
 
