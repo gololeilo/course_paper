@@ -12,12 +12,7 @@ def main():
         print(get_formatted(row['date']),end=' ')
         print(row['description'])
         print(masking_card(row['to']))
-        print(row['operationAmount'])
-
-
-
-
-
+        print(row['operationAmount']['amount'],row['operationAmount']['currency']['name'])
 
 
 if __name__ ==  '__main__':

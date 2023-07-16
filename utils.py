@@ -6,7 +6,7 @@ def get_data(file='operations.json'):
     with open(file, encoding="UTF-8") as json_file:
         return json.load(json_file)
 
-
+#abkmnh executed
 def get_filtered_data(data):
     new_data = []
     for transaction in data:
@@ -14,7 +14,7 @@ def get_filtered_data(data):
             new_data.append(transaction)
     return new_data
 
-
+#сортировка по дате и вывод 5 операций
 def get_sorted_data(data):
     data = sorted(data, key=lambda x: x['date'], reverse=True)
     return data[:5]
